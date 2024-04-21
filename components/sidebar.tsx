@@ -6,6 +6,7 @@ import { Montserrat } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { FreeCounter } from "./free-counter";
 
 
 const montserrat = Montserrat({
@@ -57,9 +58,15 @@ const routes = [
     },
 ];
 
-const Sidebar = () => {
+interface SidebarProps {
+    apiLimitCount: number;
+}
+
+const Sidebar = ({
+    apiLimitCount = 0
+}: SidebarProps) => {
     const pathname = usePathname();
-    
+
     return (
         <div className="space-y-4 py-4 flex flex-col h-full bg-[#111827] text-white">
             <div className="px-3 py-2 flex-1">
@@ -74,7 +81,7 @@ const Sidebar = () => {
                         <Link
                             href={route.href}
                             key={route.href}
-                            className={cn("text-sm group flex p-3 w-full justify-start fond-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition", pathname === route.href ? "text-white bg-white/10": "text-zinc-400")}
+                            className={cn("text-sm group flex p-3 w-full justify-start fond-medium cursor-pointer hover:text-white hover:bg-white/10 rounded-lg transition", pathname === route.href ? "text-white bg-white/10" : "text-zinc-400")}
                         >
                             <div className="flex items-center flex-1">
                                 <route.icon className={cn("w-5 h-5 mr-3", route.color)} />
@@ -84,6 +91,7 @@ const Sidebar = () => {
                     ))}
                 </div>
             </div>
+            <FreeCounter apiLimitCount={apiLimitCount}/>
         </div>
     )
 }
